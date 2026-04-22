@@ -1,82 +1,42 @@
-# DSANet-ISLES: Interpretable Multi-Architecture Ensemble for Stroke Lesion Segmentation
+# DSANet-ISLES
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://pronad1.github.io/DSANet/)
 [![Dataset](https://img.shields.io/badge/Dataset-ISLES%202022-blue)](https://zenodo.org/records/7153326)
 [![Paper](https://img.shields.io/badge/Paper-Under%20Review-red)](#citation)
 [![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey)](http://creativecommons.org/licenses/by-sa/4.0/)
 
-**DSANet-ISLES: An Interpretable Multi-Architecture Ensemble of DERNet, SegResNet, and Attention U-Net for Low-Resource Stroke Lesion Segmentation**
+**DSANet-ISLES: An Interpretable Multi-Architecture Ensemble of DerNet, SegResNet, and Attention U-Net for Low-Resource Stroke Lesion Segmentation**
 
-## Live Project
+## Project Page
 
-Visit the project webpage for figures, qualitative outputs, and full visual narrative:
-
-**https://pronad1.github.io/DSANet/**
-
----
+Live website: https://pronad1.github.io/DSANet/
 
 ## Abstract
 
-Accurate automated segmentation of ischemic stroke lesions is essential for timely clinical decision-making, but real-world deployment remains difficult in low-resource settings due to heterogeneity in image quality and limited computational infrastructure. DSANet-ISLES introduces an interpretable ensemble framework that combines DERNet, SegResNet, and Attention U-Net to capture complementary spatial and contextual features from multi-modal MRI (FLAIR, DWI, ADC). Model predictions are fused using validation-optimized weighted ensembling with threshold selection, then refined via test-time augmentation and morphological post-processing. On ISLES 2022, DSANet-ISLES achieves Dice 0.8092 and Micro-F1 0.8814, demonstrating robust lesion delineation compared to individual model outputs.
+Accurate automated segmentation of ischemic stroke lesions is essential for timely clinical decision-making and treatment planning. However, practical deployment remains challenging in low-resource settings with limited computational infrastructure. DSANet-ISLES is an interpretable multi-architecture ensemble framework for ischemic stroke lesion segmentation from multi-modal MRI.
 
----
+The method combines DerNet, SegResNet, and Attention U-Net as complementary experts, integrating FLAIR, DWI, and ADC into a unified 3D representation. Predictions are fused through a validation-driven weighted ensemble, followed by threshold optimization, test-time augmentation (TTA), and morphological post-processing to improve robustness and reduce false positives.
 
-## Key Contributions
+On the ISLES 2022 test set, DSANet-ISLES achieves:
 
-- Multi-architecture fusion of DERNet, SegResNet, and Attention U-Net for complementary representation learning.
-- Validation-driven weighted ensemble with grid-searched threshold selection for stable inference.
-- Robust inference strategy combining TTA (original, X-flip, Y-flip) and component-level post-processing.
-- Strong performance on ISLES 2022 under a low-resource deployment perspective.
-- Interpretable and practical workflow designed for variable MRI quality conditions.
+- Dice: **0.8092**
+- Micro-F1: **0.8814**
 
----
+## Dataset and Split
 
-## Performance Summary
+- Dataset: ISLES 2022
+- Modalities: FLAIR, DWI, ADC
+- Split: 70% train / 15% validation / 15% test
+- Access: https://zenodo.org/records/7153326
 
-### Final Segmentation Metrics (ISLES 2022 Test)
+## Method Summary
 
-| Metric | Score |
-| :--- | :---: |
-| Dice | **0.8092** |
-| Micro-F1 | **0.8814** |
+1. Multi-modal MRI input preparation (FLAIR, DWI, ADC).
+2. Independent training of DerNet, SegResNet, and Attention U-Net.
+3. Validation-driven weighted ensemble and threshold search.
+4. TTA aggregation and connected-component post-processing.
 
-### Final Inference Setting
-
-| Setting | Value |
-| :--- | :--- |
-| Ensemble Weights $(w_D, w_A, w_S)$ | $(0.8, 0.2, 0.0)$ |
-| Decision Threshold $\tau$ | $0.5$ |
-| TTA | Original + X-flip + Y-flip |
-| Post-processing | Remove connected components with size < 30 |
-
----
-
-## Dataset
-
-- **Benchmark:** ISLES 2022
-- **Modalities:** FLAIR, DWI, ADC
-- **Split:** 70% train / 15% validation / 15% test
-- **Access:** https://zenodo.org/records/7153326
-
----
-
-## Technical Methodology
-
-### 1. Multi-Modal Input Construction
-
-FLAIR, DWI, and ADC volumes are aligned and fused into a unified 3D input representation to improve lesion characterization.
-
-### 2. Independent Backbone Training
-
-Three architectures are trained independently as complementary experts:
-
-- DERNet
-- SegResNet
-- Attention U-Net
-
-### 3. Weighted Ensemble and Threshold Selection
-
-Predictions are fused by weighted averaging with validation-driven search:
+### Weighted Ensemble
 
 $$
 P_{ens} = w_D P_{DERNet} + w_A P_{AttUNet} + w_S P_{SegResNet}
@@ -85,60 +45,41 @@ $$
 Final weights:
 
 $$
-(w_D, w_A, w_S) = (0.8, 0.2, 0.0)
+w_D = 0.8,\quad w_A = 0.2,\quad w_S = 0.0
 $$
 
-Binary decision rule:
+### TTA and Decision Rule
 
 $$
-\hat{Y} = \mathbb{1}[P_{ens} \ge \tau], \quad \tau = 0.5
+\begin{aligned}
+P_{TTA} = \frac{1}{3}\Big(&P_{ens}(x)
++ Flip_x^{-1}(P_{ens}(Flip_x(x))) \\
+&+ Flip_y^{-1}(P_{ens}(Flip_y(x)))\Big)
+\end{aligned}
 $$
 
-### 4. Test-Time Augmentation (TTA)
-
 $$
-P_{TTA} = \frac{1}{3}\big(P(x) + P(Flip_x(x)) + P(Flip_y(x))\big)
+\hat{Y} = \mathbb{1}[P_{TTA} \geq \tau], \quad \tau = 0.5
 $$
 
-### 5. Post-Processing
+Post-processing removes connected components smaller than 30 voxels.
 
-Small connected components are removed (minimum size threshold = 30) to suppress tiny false positives.
-
----
-
-## Methodology Overview (Figure)
-
-Core four-stage workflow:
-
-1. Multi-modal data preparation (FLAIR, DWI, ADC)
-2. Independent expert model training
-3. Weighted ensemble + threshold optimization
-4. TTA and morphological refinement
-
-![DSANet-ISLES Methodology 1](./static/images/methodoloy%201.jpeg)
-
----
-
-## Training Configuration (Reported)
+## Training Configuration
 
 | Parameter | Value |
 | :--- | :--- |
 | Optimizer | AdamW |
-| Learning Rate | $1 \times 10^{-4}$ (Cosine Annealing) |
+| Learning rate | $1\times10^{-4}$ (Cosine Annealing) |
 | Loss | DiceFocalLoss / DiceCELoss |
-| Epochs | 100-150 (model dependent) |
-| Effective Batch | 1-4 (model dependent accumulation) |
-| Crop Size | $64 \times 64 \times 64$ |
+| Epochs | 100-150 (model-dependent) |
+| Effective batch | 1-4 (model-dependent accumulation) |
+| Crop size | $64 \times 64 \times 64$ |
 
----
+## Key Outcomes
 
-## Error Characteristics (Observed)
-
-- Boundary ambiguity in low-contrast lesion edges.
-- Small isolated false positives in noisy regions.
-- Fusion + TTA + connected-component filtering improves consistency and contour quality.
-
----
+- Improves robustness over single-model predictions.
+- Handles variable MRI quality in low-resource clinical settings.
+- Reduces small noisy false positives through TTA and morphology refinement.
 
 ## Repository Structure
 
@@ -146,37 +87,29 @@ Core four-stage workflow:
 .
 |- index.html
 |- README.md
-|- excel_contents/
+|- cimilab.md
 `- static/
    |- css/
    |- images/
    `- js/
 ```
 
----
-
 ## Local Preview
-
-This repository is a static website.
 
 ```bash
 python -m http.server 8000
 ```
 
-Open: http://localhost:8000
-
----
+Open http://localhost:8000 in your browser.
 
 ## Citation
 
-If you use this project, please cite:
-
 ```bibtex
 @article{DSANetISLES2026,
-  author    = {Anonymized Authors},
-  title     = {DSANet-ISLES: An Interpretable Multi-Architecture Ensemble of DerNet, SegResNet, and Attention U-Net for Low-Resource Stroke Lesion Segmentation},
-  journal   = {Under Review},
-  year      = {2026}
+  author  = {Anonymized Authors},
+  title   = {DSANet-ISLES: An Interpretable Multi-Architecture Ensemble of DerNet, SegResNet, and Attention U-Net for Low-Resource Stroke Lesion Segmentation},
+  journal = {Under Review},
+  year    = {2026}
 }
 ```
 
@@ -186,8 +119,7 @@ If you use this project, please cite:
 
 ## Acknowledgment
 
-Website template adapted from Nerfies:
-https://github.com/nerfies/nerfies.github.io
+Website template adapted from Nerfies: https://github.com/nerfies/nerfies.github.io
 
 ## License
 
