@@ -362,19 +362,17 @@ Phase 2: Constrained Grid Search
             <div class="container is-max-widescreen">
                 <h2 class="title is-3 section-title">Experimental Results</h2>
 
-                <article class="box content-block reveal-on-scroll">
-                    <div class="columns is-variable is-4 is-multiline">
-                        <div class="column is-4">
-                            <h3 class="title is-5 mb-2">Table 1: Single-Model and Ensemble Performance</h3>
+                <div class="columns is-variable is-4 is-multiline">
+                    <div class="column is-4">
+                        <article class="box table-card reveal-on-scroll h-100">
+                            <h3 class="title is-5 mb-4">Single-Model vs Ensemble</h3>
                             <div class="table-container">
-                                <table class="table is-fullwidth is-striped is-hoverable is-size-7"
-                                    id="performanceTable">
+                                <table class="table is-fullwidth custom-gradient-table is-size-7">
                                     <thead>
                                         <tr>
                                             <th>Model</th>
-                                            <th>Best Validation Dice</th>
-                                            <th>Final Test Dice</th>
-                                            <th>Remarks</th>
+                                            <th>Val Dice</th>
+                                            <th>Test Dice</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -382,145 +380,133 @@ Phase 2: Constrained Grid Search
                                             <td>DERNet</td>
                                             <td>0.8215</td>
                                             <td>0.8136</td>
-                                            <td>Strongest individual contributor in final fusion</td>
                                         </tr>
                                         <tr>
                                             <td>SegResNet</td>
                                             <td>0.7801</td>
                                             <td>0.7819</td>
-                                            <td>Improves robustness across varied appearances</td>
                                         </tr>
                                         <tr>
-                                            <td>Attention U-Net</td>
+                                            <td>Attn U-Net</td>
                                             <td>0.7789</td>
                                             <td>0.7274</td>
-                                            <td>Attention-guided complementary representation</td>
                                         </tr>
-                                        <tr class="highlight-row">
-                                            <td>DSANet Ensemble</td>
+                                        <tr class="highlight-row-gradient">
+                                            <td><strong>DSANet</strong></td>
                                             <td>-</td>
                                             <td><strong>0.8780</strong></td>
-                                            <td>Grid-search optimized weighted fusion</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="column is-4">
-                            <h3 class="title is-5">Table 2: Subgroup and Region Analysis (Mean Dice)</h3>
+                            <p class="is-size-7 mt-2 has-text-grey">Grid-search optimized weighted fusion outperforms
+                                individual backbones.</p>
+                        </article>
+                    </div>
+
+                    <div class="column is-4">
+                        <article class="box table-card reveal-on-scroll h-100">
+                            <h3 class="title is-5 mb-4">Subgroup Analysis</h3>
                             <div class="table-container">
-                                <table class="table is-fullwidth is-striped is-size-7">
+                                <table class="table is-fullwidth custom-gradient-table is-size-7">
                                     <thead>
                                         <tr>
-                                            <th>Category</th>
-                                            <th>Sub-group / Region</th>
-                                            <th>Dice</th>
+                                            <th>Sub-group</th>
+                                            <th>Dice Score</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Lesion Size</td>
-                                            <td>Small Lesions (&lt;10 ml)</td>
+                                            <td>Small Lesions</td>
                                             <td>0.7306</td>
                                         </tr>
                                         <tr>
-                                            <td>Lesion Size</td>
-                                            <td>Large Lesions (&gt;10 ml)</td>
+                                            <td>Large Lesions</td>
                                             <td>0.8860</td>
                                         </tr>
                                         <tr>
-                                            <td>Anatomical Location</td>
-                                            <td>Deep Brain Structures</td>
+                                            <td>Deep Brain</td>
                                             <td>0.9541</td>
                                         </tr>
                                         <tr>
-                                            <td>Anatomical Location</td>
-                                            <td>Superficial Brain Regions</td>
+                                            <td>Superficial</td>
                                             <td>0.8037</td>
                                         </tr>
                                         <tr>
-                                            <td>Spatial Consistency</td>
                                             <td>Lesion Core</td>
                                             <td>0.9909</td>
                                         </tr>
                                         <tr>
-                                            <td>Spatial Consistency</td>
-                                            <td>Lesion Boundary</td>
+                                            <td>Boundary</td>
                                             <td>0.8350</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="column is-4">
-                            <h3 class="title is-5">Table 3: Quantitative Segmentation Performance on the Test Set</h3>
+                        </article>
+                    </div>
+
+                    <div class="column is-4">
+                        <article class="box table-card reveal-on-scroll h-100">
+                            <h3 class="title is-5 mb-4">Quantitative Metrics</h3>
                             <div class="table-container">
-                                <table class="table is-fullwidth is-striped is-size-7">
+                                <table class="table is-fullwidth custom-gradient-table is-size-7">
                                     <thead>
                                         <tr>
-                                            <th>Metric (Averaging Method)</th>
-                                            <th>Mean Score (0 to 1)</th>
+                                            <th>Metric (Macro)</th>
+                                            <th>Mean Score</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Dice Similarity Coefficient (Macro)</td>
-                                            <td>0.8780</td>
+                                            <td>Dice Coefficient</td>
+                                            <td><strong>0.8780</strong></td>
                                         </tr>
                                         <tr>
-                                            <td>Intersection over Union (IoU – Macro)</td>
+                                            <td>IoU</td>
                                             <td>0.7826</td>
                                         </tr>
                                         <tr>
-                                            <td>Precision (PPV – Macro)</td>
+                                            <td>Precision (PPV)</td>
                                             <td>0.8333</td>
                                         </tr>
                                         <tr>
-                                            <td>Recall (Sensitivity – Macro)</td>
+                                            <td>Recall (Sens.)</td>
                                             <td>0.9279</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
-                    <div class="has-text-centered mt-4">
-                        <img src="./static/images/performance1.png" alt="Performance summary figure"
-                            style="max-width:100%;height:auto;" />
-                    </div>
-                </article>
-                <div class="columns is-variable is-4">
-                    <div class="column is-6">
-                        <article class="box figure-card reveal-on-scroll">
-                            <h3 class="title is-6">Fig. 4: Preprocessing Effect (Raw vs Z-Score Normalized DWI)</h3>
-                            <img src="./static/images/fig-4.jpeg"
-                                alt="Comparison of raw and z-score normalized DWI input"
-                                class="zoomable-image method-figure-image">
-                            <p class="is-size-7 mt-2">
-                                The left panel shows original raw DWI intensity distribution, while the right panel
-                                shows
-                                z-score normalized input used in training. This normalization step stabilizes intensity
-                                scale across subjects and improves optimization consistency for downstream ensemble
-                                learning.
-                            </p>
-                        </article>
-                    </div>
-
-                    <div class="column is-6">
-                        <article class="box figure-card reveal-on-scroll">
-                            <h3 class="title is-6">Fig. 6: Qualitative Segmentation and Multi-Modal Validation</h3>
-                            <img src="./static/images/fig-6.jpeg"
-                                alt="Qualitative segmentation across z-planes and modalities"
-                                class="zoomable-image method-figure-image">
-                            <p class="is-size-7 mt-2">
-                                Qualitative slices across below-center-above planes (z-3, z, z+3) and center-modal views
-                                demonstrate stable lesion localization and contour continuity. The red boundary overlay
-                                highlights how DSANet preserves lesion shape across DWI, ADC, and FLAIR contexts.
-                            </p>
                         </article>
                     </div>
                 </div>
 
+                <div class="columns is-variable is-4 mt-5">
+
+                    <div class="column is-6">
+                        <article class="box figure-card reveal-on-scroll">
+                            <h3 class="title is-6">Qualitative Validation</h3>
+                            <div class="image-wrapper-standard">
+                                <img src="./static/images/fig-6.jpeg" alt="Qualitative assessment"
+                                    class="zoomable-image">
+                            </div>
+                            <p class="is-size-7 mt-3">Qualitative slices across z-planes demonstrate stable lesion
+                                localization.</p>
+                        </article>
+                    </div>
+
+                    <div class="column is-6">
+                        <article class="box figure-card reveal-on-scroll">
+                            <h3 class="title is-6">Performance evalution</h3>
+                            <div class="image-wrapper-standard">
+                                <img src="./static/images/performance1.png" alt="Preprocessing Effect"
+                                    class="zoomable-image">
+                            </div>
+                            <p class="is-size-7 mt-3"></p>
+                        </article>
+                    </div>
+
+                </div>
 
             </div>
         </section>

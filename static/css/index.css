@@ -457,3 +457,61 @@ section[id] {
         align-items: stretch;
     }
 }
+
+/* Table Card Enhancements */
+.table-card {
+    border-top: 4px solid var(--nav-end);
+    /* Visual accent at top of card */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.table-card:hover {
+    transform: translateY(-5px);
+}
+
+.h-100 {
+    height: 100%;
+}
+
+/* Custom Table Gradient Styling */
+.custom-gradient-table thead th {
+    background: linear-gradient(to bottom, #f8fbff, #edf2f7);
+    color: var(--nav-start);
+    border-bottom: 2px solid #d1dee9 !important;
+}
+
+.custom-gradient-table tbody tr:nth-child(even) {
+    background-color: #fafcfe;
+}
+
+.highlight-row-gradient {
+    background: linear-gradient(90deg, #e0f2f1 0%, #fffde7 100%) !important;
+    border-left: 4px solid var(--teal-500);
+}
+
+/* Normalized Image Sizing */
+.image-wrapper-standard {
+    width: 100%;
+    overflow: hidden;
+    background: #fdfdfd;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-wrapper-standard img {
+    /* "Normal" size: fills width but maintains natural height up to a limit */
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    /* Adjust this to your preferred "normal" height */
+    object-fit: contain;
+}
+
+/* Metrics Emphasis */
+.custom-gradient-table td strong {
+    color: var(--teal-700);
+}
