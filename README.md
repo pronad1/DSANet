@@ -7,42 +7,60 @@
 
 **DSANet-ISLES: An Interpretable Multi-Architecture Ensemble of DerNet, SegResNet, and Attention U-Net for Low-Resource Stroke Lesion Segmentation**
 
-## Project Page
+## Overview
 
-Live website: https://pronad1.github.io/DSANet/
+DSANet-ISLES is a paper-aligned framework for 3D ischemic stroke lesion segmentation from multi-modal MRI. The method is designed for robust performance in low-resource clinical settings by combining complementary model families and a lightweight post-processing stack.
+
+- Project page: https://pronad1.github.io/DSANet/
+- Dataset: ISLES 2022 (https://zenodo.org/records/7153326)
+- Paper status: Under review
 
 ## Abstract
 
-Accurate automated segmentation of ischemic stroke lesions is essential for timely clinical decision-making and treatment planning. However, practical deployment remains challenging in low-resource settings with limited computational infrastructure. DSANet-ISLES is an interpretable multi-architecture ensemble framework for ischemic stroke lesion segmentation from multi-modal MRI.
+Accurate automated segmentation of ischemic stroke lesions is critical for timely diagnosis and treatment planning. However, robust deployment is difficult in low-resource settings where compute budgets are limited and MRI quality is heterogeneous.
 
-The method combines DerNet, SegResNet, and Attention U-Net as complementary experts, integrating FLAIR, DWI, and ADC into a unified 3D representation. Predictions are fused through a validation-driven weighted ensemble, followed by threshold optimization, test-time augmentation (TTA), and morphological post-processing to improve robustness and reduce false positives.
+DSANet-ISLES addresses this challenge with an interpretable multi-architecture ensemble of DerNet, SegResNet, and Attention U-Net over FLAIR, DWI, and ADC modalities. Outputs are fused via validation-guided weighting and refined using thresholding, test-time augmentation (TTA), and morphological post-processing to improve robustness and suppress false positives.
 
-On the ISLES 2022 test set, DSANet-ISLES achieves:
+## Main Contributions
 
-- Dice: **0.8092**
-- Micro-F1: **0.8814**
+1. Introduces a multi-architecture ensemble tailored for ischemic stroke lesion segmentation in low-resource environments.
+2. Uses validation-guided weighted fusion to exploit complementary strengths of DerNet and Attention U-Net.
+3. Integrates TTA-based prediction aggregation with connected-component filtering for robust final masks.
+4. Reports strong performance on ISLES 2022 with interpretable and reproducible design choices.
 
-## Dataset and Split
+## Dataset and Protocol
 
 - Dataset: ISLES 2022
-- Modalities: FLAIR, DWI, ADC
-- Split: 70% train / 15% validation / 15% test
-- Access: https://zenodo.org/records/7153326
+- Input modalities: FLAIR, DWI, ADC
+- Data split: 70% train / 15% validation / 15% test
+- Task: 3D voxel-wise lesion segmentation
 
-## Method Summary
+## Experimental Setup
 
-1. Multi-modal MRI input preparation (FLAIR, DWI, ADC).
-2. Independent training of DerNet, SegResNet, and Attention U-Net.
-3. Validation-driven weighted ensemble and threshold search.
-4. TTA aggregation and connected-component post-processing.
+- Optimization: AdamW optimizer with cosine annealing schedule
+- Initial learning rate: $1\times10^{-4}$
+- Losses: DiceFocalLoss / DiceCELoss
+- Training horizon: 100-150 epochs (model-dependent)
+- Effective batch size: 1-4 (with gradient accumulation)
+- Input crop size: $64 \times 64 \times 64$
 
-### Weighted Ensemble
+## Method
+
+### Pipeline Summary
+
+1. Build 3D multi-modal inputs from FLAIR, DWI, and ADC.
+2. Train DerNet, SegResNet, and Attention U-Net independently.
+3. Fuse model probabilities with validation-driven weights.
+4. Apply TTA aggregation.
+5. Binarize and refine masks with connected-component filtering.
+
+### Weighted Ensemble Formulation
 
 $$
-P_{ens} = w_D P_{DERNet} + w_A P_{AttUNet} + w_S P_{SegResNet}
+P_{ens} = w_D P_{DerNet} + w_A P_{AttUNet} + w_S P_{SegResNet}
 $$
 
-Final weights:
+Final weights used in the reported setup:
 
 $$
 w_D = 0.8,\quad w_A = 0.2,\quad w_S = 0.0
@@ -62,24 +80,29 @@ $$
 \hat{Y} = \mathbb{1}[P_{TTA} \geq \tau], \quad \tau = 0.5
 $$
 
-Post-processing removes connected components smaller than 30 voxels.
+Morphological post-processing removes connected components smaller than 30 voxels.
 
-## Training Configuration
+## Results (ISLES 2022 Test Set)
 
-| Parameter | Value |
-| :--- | :--- |
-| Optimizer | AdamW |
-| Learning rate | $1\times10^{-4}$ (Cosine Annealing) |
-| Loss | DiceFocalLoss / DiceCELoss |
-| Epochs | 100-150 (model-dependent) |
-| Effective batch | 1-4 (model-dependent accumulation) |
-| Crop size | $64 \times 64 \times 64$ |
+| Metric | Score |
+| :--- | :---: |
+| Dice | **0.8092** |
+| Micro-F1 | **0.8814** |
 
-## Key Outcomes
+## Discussion
 
-- Improves robustness over single-model predictions.
-- Handles variable MRI quality in low-resource clinical settings.
-- Reduces small noisy false positives through TTA and morphology refinement.
+The reported performance indicates that combining heterogeneous architectures improves stability over single-model inference. In practice, weighted fusion captures complementary lesion evidence, while TTA and connected-component filtering reduce small noisy regions. This design is particularly suitable for constrained environments because it improves output quality without requiring complex deployment-time optimization.
+
+## Why DSANet-ISLES Works
+
+- Complementary experts reduce single-model failure modes.
+- Validation-driven fusion stabilizes lesion probability estimates.
+- TTA and morphology refinement suppress small noisy predictions.
+- The full pipeline is practical for constrained-resource workflows.
+
+## Conclusion
+
+DSANet-ISLES provides an interpretable and reproducible ensemble strategy for ischemic stroke lesion segmentation using multi-modal MRI. The framework combines complementary model priors with lightweight refinement steps, yielding strong Dice and Micro-F1 performance on ISLES 2022 while remaining aligned with low-resource clinical deployment constraints.
 
 ## Repository Structure
 
@@ -117,10 +140,7 @@ Open http://localhost:8000 in your browser.
 
 - Anonymized Authors
 
-## Acknowledgment
-
-Website template adapted from Nerfies: https://github.com/nerfies/nerfies.github.io
 
 ## License
 
-See LICENSE for project licensing terms.
+See [LICENSE](LICENSE) for project licensing terms.
