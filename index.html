@@ -56,8 +56,8 @@
                         <a class="navbar-item" href="#method">Method</a>
                         <a class="navbar-item" href="#training">Training</a>
                         <a class="navbar-item" href="#results">Results</a>
-                        <a class="navbar-item" href="#contributions">Contributions</a>
                         <a class="navbar-item" href="#analysis">Error Analysis</a>
+                        <a class="navbar-item" href="#contributions">Contributions</a>
                         <a class="navbar-item" href="#citation">Citation</a>
                     </div>
                 </div>
@@ -343,17 +343,16 @@ Phase 2: Constrained Grid Search
                 <h2 class="title is-3 section-title">Training Details</h2>
 
                 <article class="box content-block reveal-on-scroll">
-                    <h3 class="title is-5">Fig. 2: DSANet Framework for Stroke Lesion Segmentation</h3>
                     <img src="./static/images/fir-2.jpeg"
                         alt="DSANet framework with DERNet, SegResNet, and Attention U-Net"
                         class="result-hero zoomable-image">
                     <p class="is-size-7 mt-3">
-                        This figure presents the complete DSANet architecture: multi-modal MRI preprocessing, parallel
-                        probability estimation from DERNet, SegResNet, and Attention U-Net, and validation-optimized
-                        weighted fusion. The optimized configuration shown in the paper ($w_1\approx0.7$,
-                        $w_2\approx0.1$,
-                        $w_3\approx0.2$) is followed by thresholding at $\tau=0.45$ to produce final binary lesion
-                        masks.
+                        Overview of the proposed network. The encoder–decoder backbone exchanges information
+                        through BAGF (Bidirectional Attention Gating Fusion) units that modulate both spatial and
+                        channel-wise feature flows instead of conventional skip connections. A BiMamba context module
+                        captures long-range contextual relationships, while the gated fusion suppresses irrelevant
+                        activations so that only lesion-discriminative features are propagated to the decoder,
+                        improving boundary localization and reducing false positives.
                     </p>
                 </article>
             </div>
@@ -364,15 +363,132 @@ Phase 2: Constrained Grid Search
                 <h2 class="title is-3 section-title">Experimental Results</h2>
 
                 <article class="box content-block reveal-on-scroll">
-                    <h3 class="title is-5">Quantitative Summary Dashboard</h3>
-                    <img src="./static/images/performance1.png" alt="Performance summary figure"
-                        class="result-hero zoomable-image">
-                    <p class="is-size-7 mt-3">
-                        DSANet demonstrates consistent lesion delineation quality with high recall and robust overlap
-                        metrics on ISLES 2022.
-                    </p>
+                    <div class="columns is-variable is-4 is-multiline">
+                        <div class="column is-4">
+                            <h3 class="title is-5 mb-2">Table 1: Single-Model and Ensemble Performance</h3>
+                            <div class="table-container">
+                                <table class="table is-fullwidth is-striped is-hoverable is-size-7"
+                                    id="performanceTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Model</th>
+                                            <th>Best Validation Dice</th>
+                                            <th>Final Test Dice</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>DERNet</td>
+                                            <td>0.8215</td>
+                                            <td>0.8136</td>
+                                            <td>Strongest individual contributor in final fusion</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SegResNet</td>
+                                            <td>0.7801</td>
+                                            <td>0.7819</td>
+                                            <td>Improves robustness across varied appearances</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Attention U-Net</td>
+                                            <td>0.7789</td>
+                                            <td>0.7274</td>
+                                            <td>Attention-guided complementary representation</td>
+                                        </tr>
+                                        <tr class="highlight-row">
+                                            <td>DSANet Ensemble</td>
+                                            <td>-</td>
+                                            <td><strong>0.8780</strong></td>
+                                            <td>Grid-search optimized weighted fusion</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="column is-4">
+                            <h3 class="title is-5">Table 2: Subgroup and Region Analysis (Mean Dice)</h3>
+                            <div class="table-container">
+                                <table class="table is-fullwidth is-striped is-size-7">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Sub-group / Region</th>
+                                            <th>Dice</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Lesion Size</td>
+                                            <td>Small Lesions (&lt;10 ml)</td>
+                                            <td>0.7306</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lesion Size</td>
+                                            <td>Large Lesions (&gt;10 ml)</td>
+                                            <td>0.8860</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Anatomical Location</td>
+                                            <td>Deep Brain Structures</td>
+                                            <td>0.9541</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Anatomical Location</td>
+                                            <td>Superficial Brain Regions</td>
+                                            <td>0.8037</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Spatial Consistency</td>
+                                            <td>Lesion Core</td>
+                                            <td>0.9909</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Spatial Consistency</td>
+                                            <td>Lesion Boundary</td>
+                                            <td>0.8350</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="column is-4">
+                            <h3 class="title is-5">Table 3: Quantitative Segmentation Performance on the Test Set</h3>
+                            <div class="table-container">
+                                <table class="table is-fullwidth is-striped is-size-7">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric (Averaging Method)</th>
+                                            <th>Mean Score (0 to 1)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Dice Similarity Coefficient (Macro)</td>
+                                            <td>0.8780</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Intersection over Union (IoU – Macro)</td>
+                                            <td>0.7826</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Precision (PPV – Macro)</td>
+                                            <td>0.8333</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Recall (Sensitivity – Macro)</td>
+                                            <td>0.9279</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="has-text-centered mt-4">
+                        <img src="./static/images/performance1.png" alt="Performance summary figure"
+                            style="max-width:100%;height:auto;" />
+                    </div>
                 </article>
-
                 <div class="columns is-variable is-4">
                     <div class="column is-6">
                         <article class="box figure-card reveal-on-scroll">
@@ -405,108 +521,7 @@ Phase 2: Constrained Grid Search
                     </div>
                 </div>
 
-                <article class="box content-block reveal-on-scroll">
-                    <div
-                        class="is-flex is-justify-content-space-between is-align-items-center is-flex-wrap-wrap table-toolbar">
-                        <h3 class="title is-5 mb-2">Table 1: Single-Model and Ensemble Performance</h3>
-                        <div class="field has-addons mb-2">
-                            <div class="control has-icons-left">
-                                <input id="modelSearch" class="input is-small" type="text"
-                                    placeholder="Filter model row">
-                                <span class="icon is-small is-left"><i class="fas fa-search"></i></span>
-                            </div>
-                            <div class="control">
-                                <button id="clearSearch" class="button is-small is-light" type="button">Clear</button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="table-container">
-                        <table class="table is-fullwidth is-striped is-hoverable is-size-7" id="performanceTable">
-                            <thead>
-                                <tr>
-                                    <th>Model</th>
-                                    <th>Best Validation Dice</th>
-                                    <th>Final Test Dice</th>
-                                    <th>Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>DERNet</td>
-                                    <td>0.8215</td>
-                                    <td>0.8136</td>
-                                    <td>Strongest individual contributor in final fusion</td>
-                                </tr>
-                                <tr>
-                                    <td>SegResNet</td>
-                                    <td>0.7801</td>
-                                    <td>0.7819</td>
-                                    <td>Improves robustness across varied appearances</td>
-                                </tr>
-                                <tr>
-                                    <td>Attention U-Net</td>
-                                    <td>0.7789</td>
-                                    <td>0.7274</td>
-                                    <td>Attention-guided complementary representation</td>
-                                </tr>
-                                <tr class="highlight-row">
-                                    <td>DSANet Ensemble</td>
-                                    <td>-</td>
-                                    <td><strong>0.8780</strong></td>
-                                    <td>Grid-search optimized weighted fusion</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
-
-                <article class="box content-block reveal-on-scroll">
-                    <h3 class="title is-5">Table 2: Subgroup and Region Analysis (Mean Dice)</h3>
-                    <div class="table-container">
-                        <table class="table is-fullwidth is-striped is-size-7">
-                            <thead>
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Sub-group / Region</th>
-                                    <th>Dice</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Lesion Size</td>
-                                    <td>Small Lesions (&lt;10 ml)</td>
-                                    <td>0.7306</td>
-                                </tr>
-                                <tr>
-                                    <td>Lesion Size</td>
-                                    <td>Large Lesions (&gt;10 ml)</td>
-                                    <td>0.8860</td>
-                                </tr>
-                                <tr>
-                                    <td>Anatomical Location</td>
-                                    <td>Deep Brain Structures</td>
-                                    <td>0.9541</td>
-                                </tr>
-                                <tr>
-                                    <td>Anatomical Location</td>
-                                    <td>Superficial Brain Regions</td>
-                                    <td>0.8037</td>
-                                </tr>
-                                <tr>
-                                    <td>Spatial Consistency</td>
-                                    <td>Lesion Core</td>
-                                    <td>0.9909</td>
-                                </tr>
-                                <tr>
-                                    <td>Spatial Consistency</td>
-                                    <td>Lesion Boundary</td>
-                                    <td>0.8350</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
             </div>
         </section>
 
@@ -520,7 +535,7 @@ Phase 2: Constrained Grid Search
                     <div class="column is-6">
                         <article class="box figure-card reveal-on-scroll">
                             <h3 class="title is-6">Global Confusion Pattern</h3>
-                            <img src="./static/images/confusion.PNG" alt="Confusion matrix" class="zoomable-image">
+                            <img src="./static/images/upcon.jpeg" alt="Confusion matrix" class="zoomable-image">
                             <p class="is-size-7 mt-2">High true-positive concentration supports strong voxel-level
                                 overlap.
                                 Remaining errors are concentrated near hard boundary regions.</p>
