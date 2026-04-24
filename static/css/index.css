@@ -12,6 +12,8 @@
     --rose-500: #cb4a59;
     --shadow-soft: 0 10px 26px rgba(14, 24, 38, 0.08);
     --shadow-medium: 0 16px 36px rgba(14, 24, 38, 0.14);
+    --nav-start: #0b3c74;
+    --nav-end: #0d7a8a;
 }
 
 html {
@@ -33,14 +35,35 @@ body {
 }
 
 .publication-navbar {
-    background: rgba(255, 255, 255, 0.86);
-    border-bottom: 1px solid rgba(15, 23, 35, 0.08);
+    background: linear-gradient(120deg, var(--nav-start), var(--nav-end));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 40;
+    box-shadow: 0 10px 24px rgba(7, 27, 53, 0.28);
+}
+
+.publication-navbar .navbar-item {
+    color: #ecf7ff;
+    font-weight: 600;
+}
+
+.publication-navbar .navbar-item:hover,
+.publication-navbar .navbar-item:focus-visible {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+}
+
+.publication-navbar .navbar-menu {
+    background: transparent;
+}
+
+.navbar-burger span {
+    background-color: #f3fbff;
 }
 
 section[id] {
@@ -52,7 +75,7 @@ section[id] {
     align-items: center;
     gap: 0.65rem;
     font-weight: 700;
-    color: var(--ink-900);
+    color: #ffffff;
 }
 
 .brand-item img {
@@ -129,19 +152,25 @@ section[id] {
 }
 
 .metric-card {
-    background: var(--white);
-    border: 1px solid rgba(15, 23, 35, 0.09);
+    background: linear-gradient(160deg, #ffffff, #f2f8ff);
+    border: 1px solid rgba(24, 74, 132, 0.16);
     border-radius: 14px;
     padding: 1rem;
     box-shadow: var(--shadow-soft);
     height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(16, 44, 80, 0.2);
 }
 
 .metric-label {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.09em;
-    color: var(--ink-500);
+    color: #2f5d93;
     margin-bottom: 0.25rem;
 }
 
@@ -149,7 +178,27 @@ section[id] {
     font-family: 'Source Serif 4', serif;
     font-size: 1.55rem;
     font-weight: 600;
-    color: var(--ink-900);
+    color: #0f2f56;
+}
+
+.metrics-row .column:nth-child(1) .metric-card {
+    background: linear-gradient(160deg, #fff8f1, #ffe9d6);
+    border-color: rgba(218, 133, 43, 0.3);
+}
+
+.metrics-row .column:nth-child(2) .metric-card {
+    background: linear-gradient(160deg, #f4f6ff, #e6ebff);
+    border-color: rgba(80, 105, 217, 0.28);
+}
+
+.metrics-row .column:nth-child(3) .metric-card {
+    background: linear-gradient(160deg, #effcf8, #dcf6ee);
+    border-color: rgba(26, 136, 107, 0.28);
+}
+
+.metrics-row .column:nth-child(4) .metric-card {
+    background: linear-gradient(160deg, #f5f5ff, #ebe8ff);
+    border-color: rgba(105, 86, 201, 0.28);
 }
 
 .section-alt {
@@ -162,6 +211,12 @@ section[id] {
     color: var(--ink-700);
     line-height: 1.74;
     font-size: 1.02rem;
+}
+
+#abstract .paper-content p {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
 }
 
 .content-block,

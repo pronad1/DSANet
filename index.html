@@ -68,8 +68,7 @@
             <div class="hero-body">
                 <div class="container is-max-desktop">
                     <div class="columns is-vcentered">
-                        <div class="column is-8-desktop">
-                            <p class="eyebrow">Under Review</p>
+                        <div class="column is-12-desktop">
                             <h1 class="title is-1 publication-title">
                                 DSANet: A Grid-Search Optimized
                                 Heterogeneous Ensemble for Ischemic Stroke
@@ -103,15 +102,6 @@
                             </div>
                         </div>
 
-                        <div class="column is-4-desktop">
-                            <div class="hero-figure-card reveal-on-scroll">
-                                <img src="./static/images/methodoloy 1.jpeg" alt="DSANet framework visual summary"
-                                    class="hero-figure">
-                                <p class="hero-figure-caption">
-                                    High-level DSANet architecture and optimization-driven fusion workflow.
-                                </p>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="columns is-multiline metrics-row">
@@ -180,6 +170,64 @@
                         computational budgets.
                     </p>
                 </div>
+
+                <article class="box content-block reveal-on-scroll mt-5">
+                    <h3 class="title is-5">Fig. A: DSANet Framework Overview</h3>
+                    <img src="./static/images/methodoloy 1.jpeg"
+                        alt="High-level DSANet architecture and fusion workflow" class="result-hero zoomable-image">
+                    <p class="is-size-7 mt-3">
+                        High-level DSANet architecture illustrating standardized data flow from ISLES 2022 MRI inputs
+                        through modality preparation, heterogeneous model inference, and optimization-driven ensemble
+                        fusion.
+                    </p>
+                </article>
+
+                <article class="box content-block reveal-on-scroll mt-4">
+                    <h3 class="title is-5">Standard Input Specification</h3>
+                    <div class="table-container">
+                        <table class="table is-fullwidth is-striped is-size-7 compact-table">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Standard Form</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dataset</td>
+                                    <td>ISLES 2022 (250 public cases)</td>
+                                    <td>Benchmark source for training, validation, and testing</td>
+                                </tr>
+                                <tr>
+                                    <td>Input Modalities</td>
+                                    <td>FLAIR, DWI, ADC</td>
+                                    <td>Complementary tissue and lesion contrast information</td>
+                                </tr>
+                                <tr>
+                                    <td>Spatial Standardization</td>
+                                    <td>Resampling to a common spacing</td>
+                                    <td>Reduces geometry inconsistency across subjects</td>
+                                </tr>
+                                <tr>
+                                    <td>Intensity Standardization</td>
+                                    <td>Min-max scaling + Z-score normalization</td>
+                                    <td>Stabilizes optimization and cross-case intensity alignment</td>
+                                </tr>
+                                <tr>
+                                    <td>Model Input Tensor</td>
+                                    <td>3-channel 3D volume (FLAIR, DWI, ADC)</td>
+                                    <td>Unified representation for all three expert networks</td>
+                                </tr>
+                                <tr>
+                                    <td>Data Split</td>
+                                    <td>70% train / 15% val / 15% test</td>
+                                    <td>Validation-driven weight and threshold optimization</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
             </div>
         </section>
 
