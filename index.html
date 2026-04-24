@@ -53,10 +53,10 @@
                 <div id="mainNavbar" class="navbar-menu">
                     <div class="navbar-end">
                         <a class="navbar-item" href="#abstract">Abstract</a>
-                        <a class="navbar-item" href="#contributions">Contributions</a>
                         <a class="navbar-item" href="#method">Method</a>
-                        <a class="navbar-item" href="#paper-figures">Paper Figures</a>
+                        <a class="navbar-item" href="#training">Training</a>
                         <a class="navbar-item" href="#results">Results</a>
+                        <a class="navbar-item" href="#contributions">Contributions</a>
                         <a class="navbar-item" href="#analysis">Error Analysis</a>
                         <a class="navbar-item" href="#citation">Citation</a>
                     </div>
@@ -68,7 +68,7 @@
             <div class="hero-body">
                 <div class="container is-max-desktop">
                     <div class="columns is-vcentered">
-                        <div class="column is-12-desktop">
+                        <div class="column is-7-desktop">
                             <h1 class="title is-1 publication-title">
                                 DSANet: A Grid-Search Optimized
                                 Heterogeneous Ensemble for Ischemic Stroke
@@ -100,6 +100,25 @@
                                     <span>Dataset</span>
                                 </a>
                             </div>
+                        </div>
+
+                        <div class="column is-5-desktop">
+                            <article class="hero-input-card reveal-on-scroll">
+                                <h3 class="title is-6 hero-input-title">Input Preview</h3>
+                                <div class="hero-input-grid">
+                                    <img src="./static/images/normal1.jpeg" alt="Input MRI sample 1"
+                                        class="zoomable-image hero-input-image">
+                                    <img src="./static/images/normal2.jpeg" alt="Input MRI sample 2"
+                                        class="zoomable-image hero-input-image">
+                                    <img src="./static/images/abnormal_dwi_3.jpg" alt="Input MRI sample 3"
+                                        class="zoomable-image hero-input-image">
+                                    <img src="./static/images/abnormal_dwi_8.jpg" alt="Input MRI sample 4"
+                                        class="zoomable-image hero-input-image">
+                                </div>
+                                <p class="hero-input-caption">
+                                    Representative standardized inputs used before ensemble inference.
+                                </p>
+                            </article>
                         </div>
 
                     </div>
@@ -136,6 +155,25 @@
     </header>
 
     <main>
+
+        <section class="section" id="input-standard">
+            <div class="container is-max-desktop">
+
+                <article class="box content-block reveal-on-scroll mt-5">
+                    <img src="./static/images/methodoloy 1.jpeg"
+                        alt="High-level DSANet architecture and fusion workflow" class="result-hero zoomable-image">
+                    <p class="is-size-7 mt-3">
+                        <strong></strong> Overview of the proposed DSANet framework. Preprocessed multi-modal
+                        MRI volumes (FLAIR, DWI, ADC) are processed in parallel by three complementary 3D networks
+                        (DerNet, SegResNet, and Attention U-Net). Their soft predictions are fused through weighted
+                        averaging, where the weights and binarization threshold are jointly selected by the constrained
+                        grid search in Algorithm 1, followed by morphological post-processing.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+
         <section class="section" id="abstract">
             <div class="container is-max-desktop">
                 <h2 class="title is-3 section-title">Abstract</h2>
@@ -170,154 +208,98 @@
                         computational budgets.
                     </p>
                 </div>
-
-                <article class="box content-block reveal-on-scroll mt-5">
-                    <h3 class="title is-5">Fig. A: DSANet Framework Overview</h3>
-                    <img src="./static/images/methodoloy 1.jpeg"
-                        alt="High-level DSANet architecture and fusion workflow" class="result-hero zoomable-image">
-                    <p class="is-size-7 mt-3">
-                        High-level DSANet architecture illustrating standardized data flow from ISLES 2022 MRI inputs
-                        through modality preparation, heterogeneous model inference, and optimization-driven ensemble
-                        fusion.
-                    </p>
-                </article>
-
-                <article class="box content-block reveal-on-scroll mt-4">
-                    <h3 class="title is-5">Standard Input Specification</h3>
-                    <div class="table-container">
-                        <table class="table is-fullwidth is-striped is-size-7 compact-table">
-                            <thead>
-                                <tr>
-                                    <th>Component</th>
-                                    <th>Standard Form</th>
-                                    <th>Purpose</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Dataset</td>
-                                    <td>ISLES 2022 (250 public cases)</td>
-                                    <td>Benchmark source for training, validation, and testing</td>
-                                </tr>
-                                <tr>
-                                    <td>Input Modalities</td>
-                                    <td>FLAIR, DWI, ADC</td>
-                                    <td>Complementary tissue and lesion contrast information</td>
-                                </tr>
-                                <tr>
-                                    <td>Spatial Standardization</td>
-                                    <td>Resampling to a common spacing</td>
-                                    <td>Reduces geometry inconsistency across subjects</td>
-                                </tr>
-                                <tr>
-                                    <td>Intensity Standardization</td>
-                                    <td>Min-max scaling + Z-score normalization</td>
-                                    <td>Stabilizes optimization and cross-case intensity alignment</td>
-                                </tr>
-                                <tr>
-                                    <td>Model Input Tensor</td>
-                                    <td>3-channel 3D volume (FLAIR, DWI, ADC)</td>
-                                    <td>Unified representation for all three expert networks</td>
-                                </tr>
-                                <tr>
-                                    <td>Data Split</td>
-                                    <td>70% train / 15% val / 15% test</td>
-                                    <td>Validation-driven weight and threshold optimization</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
             </div>
         </section>
 
-        <section class="section section-alt" id="contributions">
-            <div class="container is-max-desktop">
-                <h2 class="title is-3 section-title">Main Contributions</h2>
-                <article class="box content-block reveal-on-scroll">
-                    <div class="content paper-content">
-                        <ol>
-                            <li>A heterogeneous ensemble framework that integrates DERNet, SegResNet, and Attention
-                                U-Net for robust multi-modal ischemic lesion segmentation.</li>
-                            <li>A constrained grid-search strategy that jointly optimizes ensemble fusion weights and
-                                decision threshold on validation data.</li>
-                            <li>A practical inference pipeline using test-time augmentation and connected-component
-                                filtering, designed for computationally constrained settings.</li>
-                            <li>Comprehensive evaluation on ISLES 2022, including global metrics and subgroup-level
-                                analysis across lesion size, anatomical region, and boundary consistency.</li>
-                        </ol>
-                    </div>
-                </article>
-            </div>
-        </section>
+
 
         <section class="section" id="method">
             <div class="container is-max-widescreen">
                 <h2 class="title is-3 section-title">Methodology</h2>
 
+                <article class="box content-block reveal-on-scroll method-top-figure">
+                    <h3 class="title is-6">Fig. 1: DSANet Pipeline Overview</h3>
+                    <img src="./static/images/methodoloy 2.jpeg" alt="Preprocessing and model pipeline"
+                        class="zoomable-image method-banner-image">
+                    <p class="is-size-7">
+                        Multi-modal preprocessing, architecture-level specialization, and validation-optimized
+                        score-level fusion for final inference.
+                    </p>
+                </article>
+
                 <div class="columns is-variable is-5">
                     <div class="column is-7">
                         <article class="box content-block reveal-on-scroll">
-                            <h3 class="title is-5">Formulation</h3>
-                            <p>
-                                Final probability fusion is defined as:
-                            </p>
-                            <p class="equation-block">
-                                $$P_{ens} = w_D P_{DERNet} + w_A P_{AttUNet} + w_S P_{SegResNet}$$
-                                $$w_D=0.7,\; w_A=0.2,\; w_S=0.1$$
-                            </p>
-                            <p>
-                                Inference applies TTA before thresholding:
-                            </p>
-                            <p class="equation-block">
-                                $$\begin{aligned}
-                                P_{TTA}=\frac{1}{3}\Big(&P_{ens}(x)
-                                +Flip_x^{-1}(P_{ens}(Flip_x(x))) \\
-                                &+Flip_y^{-1}(P_{ens}(Flip_y(x)))\Big)
-                                \end{aligned}$$
-                                $$\hat{Y}=\mathbb{1}[P_{TTA} \geq \tau], \quad \tau=0.45$$
-                            </p>
-                            <p>
-                                Connected components below 30 voxels are removed as post-processing.
-                            </p>
-                        </article>
+                            <h3 class="title is-5">Algorithm 1: Constrained Grid-Search Optimization</h3>
+                            <pre class="algo-pre"><code>Algorithm 1 Constrained Grid Search for Heterogeneous 3D Ensemble
+Require: Validation dataset D_val = {(X_i, Y_i)}^N_{i=1}, Model pool M = {M_der, M_seg, M_att}, Candidate thresholds T, Lower-bound mu = 0.1, Step size delta = 0.05
+Ensure: Optimal ensemble weights w* and threshold t*
 
-                        <article class="box content-block reveal-on-scroll">
-                            <h3 class="title is-5">Algorithm (Validation Search and Final Inference)</h3>
-                            <pre class="algo-pre"><code>Input: validation set V, test volume x, model probability maps P_D, P_A, P_S
-Constraints: w_D + w_A + w_S = 1, w_i in [0,1]
-Search: constrained grid-search over (w_D, w_A, w_S, tau)
+Phase 1: Soft TTA Probability Extraction
+1: for all (X_i, Y_i) in D_val do
+2:     for all model M_k in M do
+3:         P_{k,i} <- ExtractSoftTTA(X_i, M_k)   // Before thresholding
+4:     end for
+5: end for
 
-1: bestScore <- -inf
-2: for each feasible (w_D, w_A, w_S):
-3:     P_ens <- w_D*P_D + w_A*P_A + w_S*P_S
-4:     for each candidate threshold tau:
-5:         Y_hat <- 1[P_ens >= tau]
-6:         score <- ValidationMetric(Y_hat, V)
-7:         if score > bestScore:
-8:             (w_D*, w_A*, w_S*, tau*) <- (w_D, w_A, w_S, tau)
-9:             bestScore <- score
-
-10: infer on x, Flip_x(x), and Flip_y(x)
-11: restore orientation and average probability maps
-12: Y_hat <- 1[P_TTA >= tau*]
-13: remove connected components with size < 30 voxels</code></pre>
+Phase 2: Constrained Grid Search
+6: S_best <- 0
+7: for w1 <- mu to 1.0 step delta do
+8:     for w2 <- mu to (1.0 - w1) step delta do
+9:         w3 <- 1.0 - (w1 + w2)
+10:        if w3 < mu then
+11:            continue
+12:        end if
+13:        for all t in T do
+14:            S_current <- 0
+15:            for all (X_i, Y_i) in D_val do
+16:                P_ens <- sum_{k=1..3}(w_k * P_{k,i})
+17:                Y_hat_i <- I(P_ens > t)
+18:                S_current <- S_current + Dice(Y_hat_i, Y_i)
+19:            end for
+20:            if (S_current / N) > S_best then
+21:                S_best <- (S_current / N)
+22:                w* <- [w1, w2, w3]
+23:                t* <- t
+24:            end if
+25:        end for
+26:    end for
+27: end for
+28: return w*, t*</code></pre>
                         </article>
                     </div>
 
                     <div class="column is-5">
-                        <article class="box figure-card reveal-on-scroll">
-                            <h3 class="title is-6">Fig. 1: DSANet Pipeline Overview</h3>
-                            <img src="./static/images/methodoloy 2.jpeg" alt="Preprocessing and model pipeline"
-                                class="zoomable-image">
-                            <p class="is-size-7">
-                                Multi-modal preprocessing, architecture-level specialization, and validation-optimized
-                                score-level fusion for final inference.
+                        <article class="box content-block reveal-on-scroll">
+                            <h3 class="title is-5">Ensemble and Decision Formulation</h3>
+                            <p>
+                                The paper defines weighted ensemble fusion as:
+                            </p>
+                            <p class="equation-block">
+                                $$P_{final} = w_1 P_1 + w_2 P_2 + w_3 P_3,
+                                \quad w_1 + w_2 + w_3 = 1$$
+                            </p>
+                            <p>
+                                The final binary prediction is obtained by thresholding:
+                            </p>
+                            <p class="equation-block">
+                                $$\hat{Y} = \mathbb{1}[P_{final} \geq T], \quad T^* = 0.45$$
+                            </p>
+                            <p>
+                                Training follows the combined objective reported in the paper:
+                            </p>
+                            <p class="equation-block">
+                                $$L_{total} = \lambda_1 L_{Dice} + \lambda_2 L_{Focal},
+                                \quad \lambda_1 = 1.0,\; \lambda_2 = 1.0,\; \gamma = 2.0$$
+                            </p>
+                            <p>
+                                Test-time augmentation and morphological post-processing are applied after fusion to
+                                improve boundary consistency and suppress isolated false positives.
                             </p>
                         </article>
 
                         <article class="box figure-card reveal-on-scroll">
-                            <h3 class="title is-6">Table A: Implementation Snapshot</h3>
+                            <h3 class="title is-6">Table M1: Training and Optimization Setup</h3>
                             <table class="table is-fullwidth is-striped is-size-7 compact-table">
                                 <tbody>
                                     <tr>
@@ -340,11 +322,40 @@ Search: constrained grid-search over (w_D, w_A, w_S, tau)
                                         <th>Threshold</th>
                                         <td>0.45 (validation optimized)</td>
                                     </tr>
+                                    <tr>
+                                        <th>Weight Search</th>
+                                        <td>Constrained grid search (step 0.05)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Loss</th>
+                                        <td>$L_{total}=\lambda_1L_{Dice}+\lambda_2L_{Focal}$</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </article>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="section section-alt" id="training">
+            <div class="container is-max-widescreen">
+                <h2 class="title is-3 section-title">Training Details</h2>
+
+                <article class="box content-block reveal-on-scroll">
+                    <h3 class="title is-5">Fig. 2: DSANet Framework for Stroke Lesion Segmentation</h3>
+                    <img src="./static/images/fir-2.jpeg"
+                        alt="DSANet framework with DERNet, SegResNet, and Attention U-Net"
+                        class="result-hero zoomable-image">
+                    <p class="is-size-7 mt-3">
+                        This figure presents the complete DSANet architecture: multi-modal MRI preprocessing, parallel
+                        probability estimation from DERNet, SegResNet, and Attention U-Net, and validation-optimized
+                        weighted fusion. The optimized configuration shown in the paper ($w_1\approx0.7$,
+                        $w_2\approx0.1$,
+                        $w_3\approx0.2$) is followed by thresholding at $\tau=0.45$ to produce final binary lesion
+                        masks.
+                    </p>
+                </article>
             </div>
         </section>
 
@@ -361,6 +372,38 @@ Search: constrained grid-search over (w_D, w_A, w_S, tau)
                         metrics on ISLES 2022.
                     </p>
                 </article>
+
+                <div class="columns is-variable is-4">
+                    <div class="column is-6">
+                        <article class="box figure-card reveal-on-scroll">
+                            <h3 class="title is-6">Fig. 4: Preprocessing Effect (Raw vs Z-Score Normalized DWI)</h3>
+                            <img src="./static/images/fig-4.jpeg"
+                                alt="Comparison of raw and z-score normalized DWI input"
+                                class="zoomable-image method-figure-image">
+                            <p class="is-size-7 mt-2">
+                                The left panel shows original raw DWI intensity distribution, while the right panel
+                                shows
+                                z-score normalized input used in training. This normalization step stabilizes intensity
+                                scale across subjects and improves optimization consistency for downstream ensemble
+                                learning.
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="column is-6">
+                        <article class="box figure-card reveal-on-scroll">
+                            <h3 class="title is-6">Fig. 6: Qualitative Segmentation and Multi-Modal Validation</h3>
+                            <img src="./static/images/fig-6.jpeg"
+                                alt="Qualitative segmentation across z-planes and modalities"
+                                class="zoomable-image method-figure-image">
+                            <p class="is-size-7 mt-2">
+                                Qualitative slices across below-center-above planes (z-3, z, z+3) and center-modal views
+                                demonstrate stable lesion localization and contour continuity. The red boundary overlay
+                                highlights how DSANet preserves lesion shape across DWI, ADC, and FLAIR contexts.
+                            </p>
+                        </article>
+                    </div>
+                </div>
 
                 <article class="box content-block reveal-on-scroll">
                     <div
@@ -467,56 +510,7 @@ Search: constrained grid-search over (w_D, w_A, w_S, tau)
             </div>
         </section>
 
-        <section class="section section-alt" id="paper-figures">
-            <div class="container is-max-widescreen">
-                <h2 class="title is-3 section-title">Paper Figures (Fig. 2, Fig. 4, Fig. 6)</h2>
 
-                <article class="box content-block reveal-on-scroll">
-                    <h3 class="title is-5">Fig. 2: DSANet Framework for Stroke Lesion Segmentation</h3>
-                    <img src="./static/images/fir-2.jpeg"
-                        alt="DSANet framework with DERNet, SegResNet, and Attention U-Net"
-                        class="result-hero zoomable-image">
-                    <p class="is-size-7 mt-3">
-                        This figure presents the complete DSANet architecture: multi-modal MRI preprocessing, parallel
-                        probability estimation from DERNet, SegResNet, and Attention U-Net, and validation-optimized
-                        weighted fusion. The optimized configuration shown in the paper ($w_1\approx0.7$,
-                        $w_2\approx0.1$,
-                        $w_3\approx0.2$) is followed by thresholding at $\tau=0.45$ to produce final binary lesion
-                        masks.
-                    </p>
-                </article>
-
-                <div class="columns is-variable is-4">
-                    <div class="column is-6">
-                        <article class="box figure-card reveal-on-scroll">
-                            <h3 class="title is-6">Fig. 4: Preprocessing Effect (Raw vs Z-Score Normalized DWI)</h3>
-                            <img src="./static/images/fig-4.jpeg"
-                                alt="Comparison of raw and z-score normalized DWI input" class="zoomable-image">
-                            <p class="is-size-7 mt-2">
-                                The left panel shows original raw DWI intensity distribution, while the right panel
-                                shows
-                                z-score normalized input used in training. This normalization step stabilizes intensity
-                                scale across subjects and improves optimization consistency for downstream ensemble
-                                learning.
-                            </p>
-                        </article>
-                    </div>
-
-                    <div class="column is-6">
-                        <article class="box figure-card reveal-on-scroll">
-                            <h3 class="title is-6">Fig. 6: Qualitative Segmentation and Multi-Modal Validation</h3>
-                            <img src="./static/images/fig-6.jpeg"
-                                alt="Qualitative segmentation across z-planes and modalities" class="zoomable-image">
-                            <p class="is-size-7 mt-2">
-                                Qualitative slices across below-center-above planes (z-3, z, z+3) and center-modal views
-                                demonstrate stable lesion localization and contour continuity. The red boundary overlay
-                                highlights how DSANet preserves lesion shape across DWI, ADC, and FLAIR contexts.
-                            </p>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <section class="section section-alt" id="analysis">
             <div class="container is-max-widescreen">
@@ -544,30 +538,27 @@ Search: constrained grid-search over (w_D, w_A, w_S, tau)
                     </div>
                 </div>
 
+            </div>
+        </section>
+        <section class="section section-alt" id="contributions">
+            <div class="container is-max-desktop">
+                <h2 class="title is-3 section-title">Main Contributions</h2>
                 <article class="box content-block reveal-on-scroll">
-                    <h3 class="title is-5">Representative Input Samples</h3>
-                    <div class="dataset-grid">
-                        <figure><img src="./static/images/normal1.jpeg" alt="Normal MRI sample 1"
-                                class="zoomable-image"></figure>
-                        <figure><img src="./static/images/normal2.jpeg" alt="Normal MRI sample 2"
-                                class="zoomable-image"></figure>
-                        <figure><img src="./static/images/normal3.jpeg" alt="Normal MRI sample 3"
-                                class="zoomable-image"></figure>
-                        <figure><img src="./static/images/normal4.jpeg" alt="Normal MRI sample 4"
-                                class="zoomable-image"></figure>
-                        <figure><img src="./static/images/abnormal_dwi_3.jpg" alt="Abnormal MRI sample 1"
-                                class="zoomable-image"></figure>
-                        <figure><img src="./static/images/abnormal_dwi_8.jpg" alt="Abnormal MRI sample 2"
-                                class="zoomable-image"></figure>
-                        <figure><img src="./static/images/abnormal_dwi_9.jpg" alt="Abnormal MRI sample 3"
-                                class="zoomable-image"></figure>
-                        <figure><img src="./static/images/abnormal_dwi_11.jpg" alt="Abnormal MRI sample 4"
-                                class="zoomable-image"></figure>
+                    <div class="content paper-content">
+                        <ol>
+                            <li>A heterogeneous ensemble framework that integrates DERNet, SegResNet, and Attention
+                                U-Net for robust multi-modal ischemic lesion segmentation.</li>
+                            <li>A constrained grid-search strategy that jointly optimizes ensemble fusion weights and
+                                decision threshold on validation data.</li>
+                            <li>A practical inference pipeline using test-time augmentation and connected-component
+                                filtering, designed for computationally constrained settings.</li>
+                            <li>Comprehensive evaluation on ISLES 2022, including global metrics and subgroup-level
+                                analysis across lesion size, anatomical region, and boundary consistency.</li>
+                        </ol>
                     </div>
                 </article>
             </div>
         </section>
-
         <section class="section" id="citation">
             <div class="container is-max-desktop">
                 <h2 class="title is-3 section-title">Citation</h2>
