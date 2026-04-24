@@ -52,6 +52,7 @@
 
                 <div id="mainNavbar" class="navbar-menu">
                     <div class="navbar-end">
+                        <a class="navbar-item" href="#lab">Lab</a>
                         <a class="navbar-item" href="#abstract">Abstract</a>
                         <a class="navbar-item" href="#method">Method</a>
                         <a class="navbar-item" href="#training">Training</a>
@@ -156,6 +157,29 @@
 
     <main>
 
+        <section class="section" id="lab">
+            <div class="container is-max-desktop">
+                <article class="lab-credit-card reveal-on-scroll" aria-label="Research lab attribution">
+                    <img src="./static/images/cimilogo.png" alt="CIMILab logo" class="lab-credit-logo">
+                    <div class="lab-credit-content">
+                        <p class="lab-credit-label">Research Lab</p>
+                        <h2 class="lab-credit-title">Computation Informatics and Machine Intelligence Lab (CIMILab)</h2>
+                        <p class="lab-credit-text">
+                            This work was carried out at CIMILab, where DSANet was designed, trained, and evaluated for
+                            ischemic stroke lesion segmentation.
+                        </p>
+                        <div class="lab-credit-links">
+                            <a class="lab-github-link" href="https://github.com/CIMILab" target="_blank"
+                                rel="noopener noreferrer" aria-label="Visit CIMILab GitHub page">
+                                <span class="icon"><i class="fab fa-github"></i></span>
+                                <span>CIMILab GitHub</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
         <section class="section" id="input-standard">
             <div class="container is-max-desktop">
 
@@ -212,7 +236,6 @@
                 <h2 class="title is-3 section-title">Methodology</h2>
 
                 <article class="box content-block reveal-on-scroll method-top-figure">
-                    <h3 class="title is-6">Fig. 1: DSANet Pipeline Overview</h3>
                     <img src="./static/images/methodoloy 2.jpeg" alt="Preprocessing and model pipeline"
                         class="zoomable-image method-banner-image">
                     <p class="is-size-7">
@@ -565,14 +588,26 @@ Phase 2: Constrained Grid Search
                 <article class="box content-block reveal-on-scroll">
                     <div class="content paper-content">
                         <ol>
-                            <li>A heterogeneous ensemble framework that integrates DERNet, SegResNet, and Attention
-                                U-Net for robust multi-modal ischemic lesion segmentation.</li>
-                            <li>A constrained grid-search strategy that jointly optimizes ensemble fusion weights and
-                                decision threshold on validation data.</li>
-                            <li>A practical inference pipeline using test-time augmentation and connected-component
-                                filtering, designed for computationally constrained settings.</li>
-                            <li>Comprehensive evaluation on ISLES 2022, including global metrics and subgroup-level
-                                analysis across lesion size, anatomical region, and boundary consistency.</li>
+                            <li>We propose DSANet, a heterogeneous 3D ensemble that integrates a densely connected
+                                network, a residual segmentation
+                                network, and an attention-gated U-Net to capture complementary
+                                spatial and contextual features from FLAIR, DWI, and ADC
+                                sequences.</li>
+                            <li>We formulate ensemble construction as a constrained
+                                grid-search problem that jointly optimizes fusion weights and
+                                the binarization threshold on the validation set using a
+                                Dice-driven objective, eliminating the need for hand-tuned or
+                                uniform weighting schemes.</li>
+                            <li>We design a resource-efficient training and inference
+                                pipeline that combines Automatic Mixed Precision, gradient
+                                accumulation, Test-Time Augmentation, and morphological
+                                post-processing, enabling accurate segmentation on a single
+                                GPU without high-end hardware.</li>
+                            <li>We conduct extensive experiments on the ISLES 2022
+                                dataset, achieving a macro Dice of 0.8780 and recall of 0.9279,
+                                and provide a sub-group analysis across lesion sizes and
+                                anatomical regions that demonstrates stable performance
+                                under diverse clinical conditions.</li>
                         </ol>
                     </div>
                 </article>

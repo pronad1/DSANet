@@ -242,6 +242,81 @@ section[id] {
     border-bottom: 1px solid rgba(15, 23, 35, 0.05);
 }
 
+.lab-credit-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    background: linear-gradient(135deg, #f8fcff 0%, #eef7ff 55%, #f0fffa 100%);
+    border: 1px solid rgba(18, 78, 132, 0.18);
+    border-left: 4px solid var(--teal-700);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.lab-credit-logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 1px solid rgba(15, 23, 35, 0.1);
+    background: #ffffff;
+    padding: 0.35rem;
+}
+
+.lab-credit-content {
+    min-width: 0;
+}
+
+.lab-credit-label {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #1f4f7d;
+    font-weight: 700;
+}
+
+.lab-credit-title {
+    margin: 0;
+    font-family: 'Source Serif 4', serif;
+    font-size: clamp(1.08rem, 2.1vw, 1.35rem);
+    line-height: 1.28;
+    color: #0f2f56;
+}
+
+.lab-credit-text {
+    margin: 0.4rem 0 0 0;
+    color: var(--ink-700);
+    line-height: 1.55;
+}
+
+.lab-credit-links {
+    margin-top: 0.55rem;
+}
+
+.lab-github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.38rem 0.78rem;
+    border-radius: 999px;
+    border: 1px solid rgba(19, 82, 141, 0.25);
+    background: #ffffff;
+    color: #123d67;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lab-github-link:hover,
+.lab-github-link:focus-visible {
+    background: #f1f8ff;
+    color: #0e3357;
+    transform: translateY(-1px);
+}
+
 .paper-content p {
     color: var(--ink-700);
     line-height: 1.74;
@@ -434,6 +509,23 @@ section[id] {
 @media screen and (max-width: 768px) {
     .publication-title {
         font-size: 1.9rem;
+    }
+
+    .lab-credit-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .lab-credit-logo {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto;
+    }
+
+    .lab-credit-links {
+        display: flex;
+        justify-content: center;
     }
 
     .hero-input-card {
