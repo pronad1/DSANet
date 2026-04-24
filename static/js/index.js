@@ -1,135 +1,181 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
-var INTERP_BASE = "./static/interpolation/stacked";
-var NUM_INTERP_FRAMES = 240;
+(function () {
+    function setupNavbarBurger() {
+        var burger = document.querySelector('.navbar-burger');
+        var menu = document.getElementById('mainNavbar');
 
-var interp_images = [];
-function preloadInterpolationImages() {
-  for (var i = 0; i < NUM_INTERP_FRAMES; i++) {
-    var path = INTERP_BASE + '/' + String(i).padStart(6, '0') + '.jpg';
-    interp_images[i] = new Image();
-    interp_images[i].src = path;
-  }
-}
+        if (!burger || !menu) {
+            return;
+        }
 
-function setInterpolationImage(i) {
-  var image = interp_images[i];
-  image.ondragstart = function () { return false; };
-  image.oncontextmenu = function () { return false; };
-  $('#interpolation-image-wrapper').empty().append(image);
-}
-
-
-$(document).ready(function () {
-  // Check for click events on the navbar burger icon
-  $(".navbar-burger").click(function () {
-    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-    $(".navbar-burger").toggleClass("is-active");
-    $(".navbar-menu").toggleClass("is-active");
-
-  });
-
-  var options = {
-    slidesToScroll: 1,
-    slidesToShow: 3,
-    loop: true,
-    infinite: true,
-    autoplay: false,
-    autoplaySpeed: 3000,
-  }
-
-  // Initialize all div with carousel class
-  var carousels = bulmaCarousel.attach('.carousel', options);
-
-  // Loop on each carousel initialized
-  for (var i = 0; i < carousels.length; i++) {
-    // Add listener to  event
-    carousels[i].on('before:show', state => {
-      console.log(state);
-    });
-  }
-
-  // Access to bulmaCarousel instance of an element
-  var element = document.querySelector('#my-element');
-  if (element && element.bulmaCarousel) {
-    // bulmaCarousel instance is available as element.bulmaCarousel
-    element.bulmaCarousel.on('before-show', function (state) {
-      console.log(state);
-    });
-  }
-
-  /*var player = document.getElementById('interpolation-video');
-  player.addEventListener('loadedmetadata', function() {
-    $('#interpolation-slider').on('input', function(event) {
-      console.log(this.value, player.duration);
-      player.currentTime = player.duration / 100 * this.value;
-    })
-  }, false);*/
-  preloadInterpolationImages();
-
-  $('#interpolation-slider').on('input', function (event) {
-    setInterpolationImage(this.value);
-  });
-  setInterpolationImage(0);
-  $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
-
-  bulmaSlider.attach();
-
-  // Demo Gallery Navigation - Slides one image at a time
-  const demoGalleryWrapper = document.getElementById('demo-gallery-wrapper');
-  const demoPrevBtn = document.getElementById('demo-prev');
-  const demoNextBtn = document.getElementById('demo-next');
-  const totalImages = 8; // Total original images
-  let currentIndex = 3; // Start at index 3 (showing images 1-3, accounting for duplicates at start)
-
-  function updateDemoGallery(newIndex, enableTransition = true) {
-    if (enableTransition) {
-      demoGalleryWrapper.style.transition = 'transform 0.5s ease-in-out';
-    } else {
-      demoGalleryWrapper.style.transition = 'none';
+        burger.addEventListener('click', function () {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+            burger.setAttribute('aria-expanded', burger.classList.contains('is-active') ? 'true' : 'false');
+        });
     }
 
-    currentIndex = newIndex;
-    // Calculate offset: each item is 33.333% + gap
-    const offset = -(currentIndex * (100 / 3));
-    if (demoGalleryWrapper) {
-      demoGalleryWrapper.style.transform = `translateX(${offset}%)`;
+    function setupCountUp() {
+        var counters = document.querySelectorAll('[data-countup]');
+        if (!counters.length) {
+            return;
+        }
+
+        var started = false;
+
+        function animateCounter(el, target) {
+            var duration = 1100;
+            var startTime = null;
+
+            function step(timestamp) {
+                if (!startTime) {
+                    startTime = timestamp;
+                }
+                var progress = Math.min((timestamp - startTime) / duration, 1);
+                var value = (target * progress).toFixed(4);
+                el.textContent = value;
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        function startWhenVisible(entries, observer) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting && !started) {
+                    started = true;
+                    counters.forEach(function (counter) {
+                        var target = parseFloat(counter.getAttribute('data-countup'));
+                        animateCounter(counter, target);
+                    });
+                    observer.disconnect();
+                }
+            });
+        }
+
+        var observer = new IntersectionObserver(startWhenVisible, { threshold: 0.35 });
+        observer.observe(counters[0]);
     }
-  }
 
-  // Previous button - move one image left
-  if (demoPrevBtn) {
-    demoPrevBtn.addEventListener('click', function () {
-      currentIndex--;
-      updateDemoGallery(currentIndex, true);
+    function setupRevealOnScroll() {
+        var revealEls = document.querySelectorAll('.reveal-on-scroll');
+        if (!revealEls.length) {
+            return;
+        }
 
-      // If we went to the duplicate section at the start, jump to actual end
-      if (currentIndex === 2) {
-        setTimeout(() => {
-          updateDemoGallery(10, false); // Jump to actual image 8 position
-        }, 500);
-      }
+        var observer = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.14 });
+
+        revealEls.forEach(function (el) {
+            observer.observe(el);
+        });
+    }
+
+    function setupTableSearch() {
+        var searchInput = document.getElementById('modelSearch');
+        var clearBtn = document.getElementById('clearSearch');
+        var table = document.getElementById('performanceTable');
+
+        if (!searchInput || !clearBtn || !table) {
+            return;
+        }
+
+        var rows = table.querySelectorAll('tbody tr');
+
+        function runFilter() {
+            var query = searchInput.value.trim().toLowerCase();
+
+            rows.forEach(function (row) {
+                var rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.indexOf(query) !== -1 ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', runFilter);
+        clearBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            runFilter();
+            searchInput.focus();
+        });
+    }
+
+    function setupBackToTop() {
+        var btn = document.getElementById('backToTop');
+        if (!btn) {
+            return;
+        }
+
+        function toggleVisibility() {
+            if (window.scrollY > 420) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        }
+
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        btn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        toggleVisibility();
+    }
+
+    function setupImageModal() {
+        var modal = document.getElementById('imageModal');
+        var modalImage = document.getElementById('modalImage');
+        var closeBtn = document.getElementById('closeImageModal');
+        var zoomables = document.querySelectorAll('.zoomable-image');
+
+        if (!modal || !modalImage || !closeBtn || !zoomables.length) {
+            return;
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+            modalImage.src = '';
+        }
+
+        zoomables.forEach(function (img) {
+            img.addEventListener('click', function () {
+                modalImage.src = img.src;
+                modalImage.alt = img.alt || 'Expanded figure';
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden', 'false');
+            });
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modal.classList.contains('open')) {
+                closeModal();
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setupNavbarBurger();
+        setupCountUp();
+        setupRevealOnScroll();
+        setupTableSearch();
+        setupBackToTop();
+        setupImageModal();
     });
-  }
-
-  // Next button - move one image right
-  if (demoNextBtn) {
-    demoNextBtn.addEventListener('click', function () {
-      currentIndex++;
-      updateDemoGallery(currentIndex, true);
-
-      // If we went to the duplicate section at the end, jump to actual start
-      if (currentIndex === 11) {
-        setTimeout(() => {
-          updateDemoGallery(3, false); // Jump to actual image 1 position
-        }, 500);
-      }
-    });
-  }
-
-  // Initialize position
-  if (demoGalleryWrapper) {
-    updateDemoGallery(3, false);
-  }
-
-})
+})();
