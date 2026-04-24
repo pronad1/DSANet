@@ -494,6 +494,7 @@ section[id] {
 /* Normalized Image Sizing */
 .image-wrapper-standard {
     width: 100%;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
     background: #fdfdfd;
     border-radius: 8px;
@@ -503,11 +504,8 @@ section[id] {
 }
 
 .image-wrapper-standard img {
-    /* "Normal" size: fills width but maintains natural height up to a limit */
     width: 100%;
-    height: auto;
-    max-height: 450px;
-    /* Adjust this to your preferred "normal" height */
+    height: 100%;
     object-fit: contain;
 }
 
