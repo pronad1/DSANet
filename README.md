@@ -138,7 +138,7 @@ Open http://localhost:8000 in your browser.
 
 ## Authors
 
-- Anonymized Authors
+- ~Anonymized Authors~
 
 
 ## License
