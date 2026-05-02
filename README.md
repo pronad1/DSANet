@@ -78,7 +78,7 @@ P_{TTA} = \frac{1}{3}\Big(&P_{ens}(x)
 $$
 
 $$
-\hat{Y} = \mathbb{1}[P_{TTA} \geq \tau], \quad \tau = 0.5
+\hat{Y} = \mathbb{1}[P_{TTA} \geq \tau], \quad \tau = 0.45
 $$
 
 Morphological post-processing removes connected components smaller than 30 voxels.
