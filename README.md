@@ -83,13 +83,6 @@ $$
 
 Morphological post-processing removes connected components smaller than 30 voxels.
 
-## Results (ISLES 2022 Test Set)
-
-| Metric | Score |
-| :--- | :---: |
-| Dice | **0.8092** |
-| Micro-F1 | **0.8814** |
-
 ## Discussion
 
 The reported performance indicates that combining heterogeneous architectures improves stability over single-model inference. In practice, weighted fusion captures complementary lesion evidence, while TTA and connected-component filtering reduce small noisy regions. This design is particularly suitable for constrained environments because it improves output quality without requiring complex deployment-time optimization.
