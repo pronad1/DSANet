@@ -63,7 +63,7 @@ $$
 Final weights used in the reported setup:
 
 $$
-w_D = 0.8,\quad w_A = 0.2,\quad w_S = 0.0
+w_D = 0.7000000000000002,\quad w_A = 0.19999999999999982,\quad w_S = 0.1
 $$
 
 ### TTA and Decision Rule
