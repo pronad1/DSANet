@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="description"
-        content="DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation in Low-Resource Settings.">
+        content="DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation.">
     <meta name="keywords"
         content="DSANet, stroke lesion segmentation, DERNet, SegResNet, Attention U-Net, ensemble learning, ISLES 2022">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,7 +73,7 @@
                             <h1 class="title is-1 publication-title">
                                 DSANet: A Grid-Search Optimized
                                 Heterogeneous Ensemble for Ischemic Stroke
-                                Lesion Segmentation in Low-Resource Settings
+                                Lesion Segmentation
                             </h1>
                             <p class="subtitle publication-subtitle">
                                 A practical multi-model pipeline that balances segmentation quality, interpretability,
@@ -92,7 +92,7 @@
                                     <span class="icon"><i class="fas fa-file-alt"></i></span>
                                     <span>Paper</span>
                                 </a>
-                                <a href="#" class="button is-dark is-rounded">
+                                <a href="https://github.com/CIMILab/deploy_DSANet_ISLES22" class="button is-dark is-rounded">
                                     <span class="icon"><i class="fab fa-github"></i></span>
                                     <span>Code</span>
                                 </a>
@@ -184,7 +184,7 @@
             <div class="container is-max-desktop">
 
                 <article class="box content-block reveal-on-scroll mt-5">
-                    <img src="./static/images/methodoloy 1.jpeg"
+                    <img src="./static/images/update.png"
                         alt="High-level DSANet architecture and fusion workflow" class="result-hero zoomable-image">
                     <p class="is-size-7 mt-3">
                         <strong></strong> Overview of the proposed DSANet framework. Preprocessed multi-modal
@@ -203,27 +203,7 @@
                 <h2 class="title is-3 section-title">Abstract</h2>
                 <div class="content paper-content reveal-on-scroll">
                     <p>
-                        Accurate segmentation of ischemic stroke lesions from multi-modal MRI is a critical
-                        prerequisite for timely clinical decision-making, yet most state-of-the-art methods rely on
-                        heavy architectures and high-end GPUs that are impractical in low-resource clinical settings.
-                        This paper presents DSANet, a heterogeneous ensemble framework that couples three
-                        complementary 3D architectures: a densely connected network, a residual segmentation
-                        network, and an attention-gated U-Net, through a principled grid-search optimization
-                        pipeline. Rather than fusing model outputs with uniform or heuristic weights, we formulate
-                        ensemble construction as a constrained search problem over both fusion weights and the
-                        binarization threshold, with optimal values selected on the validation set via a Dice-driven
-                        objective. The pipeline further incorporates test-time augmentation on axis-flipped variants
-                        and morphological post-processing to suppress small disconnected false positives.
-                        Multi-modal information from FLAIR, DWI, and ADC sequences is integrated into a unified
-                        3D input representation, and training is kept resource-efficient through automatic mixed
-                        precision, gradient accumulation, and cosine-annealed AdamW. Experiments on the ISLES
-                        2022 dataset under a fixed 70/15/15 split show that DSANet attains a macro Dice Similarity
-                        Coefficient of 0.8780, a micro F1-score of 0.8780, and a recall of 0.9279, outperforming each
-                        constituent network and a DynUNet baseline by a clear margin. A fine-grained subgroup
-                        analysis confirms stable performance across lesion sizes (0.7306 on small infarcts and 0.8860
-                        on large lesions) and anatomical regions (0.9541 in deep brain structures). These results
-                        demonstrate that carefully optimized heterogeneous ensembles offer a practical path to
-                        accurate stroke segmentation under constrained computational budgets.
+                        Accurate segmentation of ischemic stroke lesions from multi-modal MRI is a critical prerequisite for timely clinical decision-making. This paper presents DSANet, a heterogeneous ensemble framework that couples three complementary 3D architectures, a densely connected network, a residual segmentation network, and an attention-gated U-Net—through a principled grid-search optimization pipeline. Rather than fusing model outputs with uniform or heuristic weights, we formulate ensemble construction as a constrained search problem over both fusion weights and the binarization threshold, with optimal values selected on the validation set via a Dice-driven objective. The pipeline further incorporates test-time augmentation on axis-flipped variants and morphological post-processing to suppress small disconnected false positives. Multi-modal information from FLAIR, DWI, and ADC sequences is integrated into a unified 3D input representation, and training is kept resource-efficient through automatic mixed precision, gradient accumulation, and cosine-annealed AdamW. Experiments on the ISLES 2022 dataset under a fixed 70/15/15 split show that DSANet attains a macro Dice Similarity Coefficient of 0.8780, a micro F1-score of 0.8780, and a recall of 0.9279, outperforming each constituent network and a DynUNet baseline by a clear margin. A fine-grained subgroup analysis confirms stable performance across lesion sizes (0.7306 on small infarcts and 0.8860 on large lesions) and anatomical regions (0.9541 in deep brain structures). These results demonstrate that carefully optimized heterogeneous ensembles offer a practical path to accurate stroke segmentation under constrained computational budgets. To support reproducibility and transparency, we provide a dedicated website hosting additional resources, including experimental analyses, error analysis, and source codes, are available at https://cimilab.github.io/StrokeDSANet/
                     </p>
                 </div>
             </div>
@@ -588,26 +568,25 @@ Phase 2: Constrained Grid Search
                 <article class="box content-block reveal-on-scroll">
                     <div class="content paper-content">
                         <ol>
-                            <li>We propose DSANet, a heterogeneous 3D ensemble that integrates a densely connected
-                                network, a residual segmentation
-                                network, and an attention-gated U-Net to capture complementary
-                                spatial and contextual features from FLAIR, DWI, and ADC
-                                sequences.</li>
+                            <li>We propose DSANet, a heterogeneous 3D ensemble that integrates a densely connected network, a residual segmentation
+    network, and an attention-gated U-Net to capture complementary
+    spatial and contextual features from FLAIR, DWI, and ADC
+    sequences.</li>
                             <li>We formulate ensemble construction as a constrained
-                                grid-search problem that jointly optimizes fusion weights and
-                                the binarization threshold on the validation set using a
-                                Dice-driven objective, eliminating the need for hand-tuned or
-                                uniform weighting schemes.</li>
+    grid-search problem that jointly optimizes fusion weights and
+    the binarization threshold on the validation set using a
+    Dice-driven objective, eliminating the need for hand-tuned or
+    uniform weighting schemes.</li>
                             <li>We design a resource-efficient training and inference
-                                pipeline that combines Automatic Mixed Precision, gradient
-                                accumulation, Test-Time Augmentation, and morphological
-                                post-processing, enabling accurate segmentation on a single
-                                GPU without high-end hardware.</li>
+    pipeline that combines Automatic Mixed Precision, gradient
+    accumulation, Test-Time Augmentation, and morphological
+    post-processing, enabling accurate segmentation on a single
+    GPU without high-end hardware.</li>
                             <li>We conduct extensive experiments on the ISLES 2022
-                                dataset, achieving a macro Dice of 0.8780 and recall of 0.9279,
-                                and provide a sub-group analysis across lesion sizes and
-                                anatomical regions that demonstrates stable performance
-                                under diverse clinical conditions.</li>
+    dataset, achieving a macro Dice of 0.8780 and recall of 0.9279,
+    and provide a sub-group analysis across lesion sizes and
+    anatomical regions that demonstrates stable performance
+    under diverse clinical conditions.</li>
                         </ol>
                     </div>
                 </article>
@@ -619,7 +598,7 @@ Phase 2: Constrained Grid Search
                 <div class="box content-block reveal-on-scroll">
                     <pre><code>@article{DSANet2026,
   author  = {Anonymized Authors},
-  title   = {DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation in Low-Resource Settings},
+  title   = {DSANet: A Grid-Search Optimized Heterogeneous Ensemble for Ischemic Stroke Lesion Segmentation},
   journal = {Under Review},
   year    = {2026}
 }</code></pre>
