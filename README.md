@@ -1,6 +1,5 @@
 # DSANet-ISLES
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](pronad1.github.io/DSANet/)
 [![Dataset](https://img.shields.io/badge/Dataset-ISLES%202022-blue)](https://zenodo.org/records/7153326)
 [![Paper](https://img.shields.io/badge/Paper-Under%20Review-red)](#citation)
 [![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey)](http://creativecommons.org/licenses/by-sa/4.0/)
@@ -11,7 +10,7 @@
 
 DSANet-ISLES is a paper-aligned framework for 3D ischemic stroke lesion segmentation from multi-modal MRI. The method is designed for robust performance in low-resource clinical settings by combining complementary model families and a lightweight post-processing stack.
 
-- Project page: https://cimilab.github.io/StrokeDSANet_ISLES22/
+- Project page: pronad1.github.io/DSANet/
 - Dataset: ISLES 2022 (https://zenodo.org/records/7153326)
 - Paper status: Under review
 
