@@ -1,6 +1,6 @@
 # DSANet-ISLES
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](https://cimilab.github.io/StrokeDSANet_ISLES22/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](pronad1.github.io/DSANet/)
 [![Dataset](https://img.shields.io/badge/Dataset-ISLES%202022-blue)](https://zenodo.org/records/7153326)
 [![Paper](https://img.shields.io/badge/Paper-Under%20Review-red)](#citation)
 [![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey)](http://creativecommons.org/licenses/by-sa/4.0/)
